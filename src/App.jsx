@@ -1,8 +1,13 @@
-import { useState } from "react";
+import Space from "./components/Space";
+
 import "./App.css";
 
 function App() {
-  return <></>;
+  return (
+    <>
+      <Space />
+    </>
+  );
 }
 
 export default App;
