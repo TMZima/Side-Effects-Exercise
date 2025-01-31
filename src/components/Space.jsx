@@ -1,5 +1,8 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Star from "./Star";
+import "./Space.css";
+
+const STAR_SIZE = 20;
 
 function Space() {
   const [stars, setStars] = useState([]);
