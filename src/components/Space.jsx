@@ -1,40 +1,39 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Star from "./Star";
 import "./Space.css";
 
-const STAR_SIZE = 20;
-
 function Space() {
+  const STAR_SIZE = 40;
+
   const [stars, setStars] = useState([]);
-  const starIdRef = useRef(0);
 
-  // function to generate a star object with random x/y coordinates and a unique id.
-  const createStar = () => {
-    const x = Math.random() * (window.innerWidth - STAR_SIZE);
-    const y = Math.random() * (window.innerHeight - STAR_SIZE);
-    const id = starIdRef.current++;
-    return { id, x, y };
-  };
-
-  // function to add a new star to the stars array by updating the state.
-  const addStar = () => {
-    const newStar = createStar();
-    setStars((prevStars) => [...prevStars, newStar]);
-  };
-
-  // useEffect hook to set interval to call create a star every 2.5 seconds.
   useEffect(() => {
     const intervalId = setInterval(() => {
-      addStar();
+      const newStar = {
+        id: `${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+        x: Math.random() * (window.innerWidth - STAR_SIZE),
+        y: Math.random() * (window.innerHeight - STAR_SIZE),
+      };
+
+      setStars((prevStars) => [...prevStars, newStar]);
     }, 2500);
 
     return () => clearInterval(intervalId);
   }, []);
 
+  const destroyStar = (id) => {
+    setStars(stars.filter((star) => star.id !== id));
+  };
+
   return (
-    <div>
+    <div className="Space">
       {stars.map((star) => (
-        <Star key={star.id} x={star.x} y={star.y} />
+        <Star
+          key={star.id}
+          id={star.id}
+          position={{ x: star.x, y: star.y }}
+          destroyStar={destroyStar}
+        />
       ))}
     </div>
   );
